@@ -18,8 +18,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/pet")
 public class PetController {
-    private List<Pet> pets = generateFakePets();
-    private Faker faker = new Faker();
+    private final List<Pet> pets = generateFakePets();
 
     private List<Pet> generateFakePets() {
         Faker faker = new Faker();
@@ -28,7 +27,7 @@ public class PetController {
         for (int i = 0; i < 20; i++) {
             if (i % 5 == 0) {
                 int hashCode = faker.hacker().abbreviation().hashCode();
-                user = new User((long) i,
+                user = new User((long) i / 5,
                                 faker.name().username(),
                                 faker.name().firstName(),
                                 faker.name().lastName(),
@@ -43,7 +42,7 @@ public class PetController {
                               user,
                               visits);
             for (int j = 0; j < faker.random().nextInt(2,5); j++) {
-                Visit visit = new Visit(faker.random().nextLong(),
+                Visit visit = new Visit(faker.random().nextLong(10_000),
                                         faker.date().past(10, TimeUnit.DAYS).toInstant().atOffset(ZoneOffset.UTC),
                                         faker.name().fullName(),
                                         faker.company().name());
